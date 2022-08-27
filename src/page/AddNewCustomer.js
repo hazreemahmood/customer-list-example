@@ -2,6 +2,8 @@ import '../App.css';
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {db} from '../firebase'
+import {collection, addDoc, Timestamp} from 'firebase/firestore'
 
 
 // Routing --------------------
@@ -10,10 +12,21 @@ const App = () => {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        alert(`The name you entered was: ${firstname} ${lastname}`)
+    /* function to add new task to firestore */
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            await addDoc(collection(db, 'tasks'), {
+            firstname: firstname,
+            lastname: lastname,
+            completed: false,
+            created: Timestamp.now()
+            })
+        } catch (err) {
+            alert(err)
+        }
     }
+    
     return (
         <div>
             <h2>Create New Customer</h2>

@@ -1,12 +1,31 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Table } from 'react-bootstrap';
 import { Link, Route, Router, Routes } from 'react-router-dom';
+import {collection, query, orderBy, onSnapshot} from "firebase/firestore"
+import {db} from './firebase'
+import CustomerListManager from './CustomerListManager';
+
 
 
 // Routing --------------------
 
-const List = () => {
+function CustomerList() {
+  const [openAddModal, setOpenAddModal] = useState(false)
+  const [tasks, setTasks] = useState([])
+
+/* function to get all tasks from firestore in realtime */ 
+  useEffect(() => {
+      const q = query(collection(db, 'tasks'), orderBy('created', 'desc'))
+      onSnapshot(q, (querySnapshot) => {
+      setTasks(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data()
+      })))
+      })
+  },[])
+  console.log(tasks);
+
   return (
     <div>
       <h2>Customer Listing</h2>
@@ -19,31 +38,20 @@ const List = () => {
             <th>#</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Username</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td colSpan={2}>Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {tasks.map((student, index) => (  
+            <tr>
+              <td>{index+1}</td>
+              <td>{student.data.firstname}</td>
+              <td>{student.data.lastname}</td>
+            </tr>
+          ))}  
         </tbody>
       </Table>
     </div>
   );
 };
 
-export default List;
+export default CustomerList;
