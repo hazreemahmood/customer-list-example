@@ -63,6 +63,11 @@
   margin: 10px;
 }
 
+.back-button{
+  float: left;
+  margin: 10px;
+}
+
 .button-link>a{
   color: #ffff;
 }

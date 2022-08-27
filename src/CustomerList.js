@@ -6,17 +6,12 @@ import { Link, Route, Router, Routes } from 'react-router-dom';
 
 // Routing --------------------
 
-
-const AddNew = () => {
-  return <h2>Add New</h2>
-};
-
 const List = () => {
   return (
     <div>
       <h2>Customer Listing</h2>
         <div className="add-new">
-          <Button onClick={AddNew} to="/add_new" variant="primary"><div className="button-link"><Link to="/add_new">Add New</Link></div></Button>
+          <Button to="/add_new" variant="primary"><div className="button-link"><Link to="/add_new">Add New</Link></div></Button>
         </div>
       <Table striped bordered hover>
         <thead>
