@@ -54,7 +54,7 @@ function App(){
                 }
                 await updateDoc(updDoc, field);
                 // 👇️ redirect to /list
-                navigate('/list');
+                navigate('/list', {state: {show:true, title: 'Success!', message: 'Record Updated Successfully', type: 'success && text-white'}});
             }else{
                 await addDoc(collection(db, 'tasks'), {
                 firstname: firstname.current.value,
@@ -65,7 +65,7 @@ function App(){
                 created: Timestamp.now()
                 })
                 // 👇️ redirect to /list
-                navigate('/list');
+                navigate('/list', {state: {show:true, title: 'Success!', message: 'New Record Added', type: 'success && text-white'}});
             }
         } catch (err) {
             alert(err)

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import logo from '../logo.svg';
 
 export class Header extends Component {
 
     render() {
         return(
-            <div className="top-menu">
-                <div className="top-menu-nav">
-                    <div className="top-menu-nav-child">Hello, Guest</div>
-                    <div><a href="#auth">Register / Login</a></div>
-                </div>
-            </div>
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                    Hello, Please press 1 of the link on top right
+                </p>
+            </header>
         )
     }
 

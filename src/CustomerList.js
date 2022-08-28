@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Table } from 'react-bootstrap';
-import { Link, Route, Router, Routes } from 'react-router-dom';
+import { Form, Button, Table, ToastContainer, Toast } from 'react-bootstrap';
+import { Link, Route, Router, Routes, useLocation } from 'react-router-dom';
 import {collection, query, orderBy, onSnapshot, doc, deleteDoc} from "firebase/firestore"
 import {db} from './firebase'
 
@@ -10,11 +10,16 @@ import {db} from './firebase'
 // Routing --------------------
 
 function CustomerList() {
+  const [show, setShow] = useState([false])
   const [tasks, setTasks] = useState([])
   const [customerId, setCustomerId] = useState()
+  const location = useLocation();
 
 /* function to get all tasks from firestore in realtime */ 
   useEffect(() => {
+    if (location.state) {
+      setShow([location.state.show, '', location.state.message, location.state.type, true, location.state.title]);
+    }
       const q = query(collection(db, 'tasks'), orderBy('created', 'desc'))
       onSnapshot(q, (querySnapshot) => {
       setTasks(querySnapshot.docs.map(doc => ({
@@ -22,6 +27,9 @@ function CustomerList() {
           data: doc.data()
       })))
       })
+      // reset state everytime enter this page.
+      window.history.replaceState({}, document.title)
+
   },[])
   
   /* function to delete a document from firstore */ 
@@ -29,6 +37,8 @@ function CustomerList() {
     const taskDocRef = doc(db, 'tasks', id)
     try{
       deleteDoc(taskDocRef)
+      setShow([true,'','Record Successfully Deleted.', 'success && text-white', true, 'Success'])
+      // navigate('/list', {state: {show:true, message: 'Record Deleted!', type: 'success'}});
     } catch (err) {
       alert(err)
     }
@@ -41,6 +51,29 @@ function CustomerList() {
 
   return (
     <div>
+      <ToastContainer position="top-end" className="p-3">
+        <Toast bg={show[3]} onClose={() => setShow([false])} show={show[0]} delay={3000} autohide={show[4]}>
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">
+            {show[1] ? 'Delete record?' : show[5]}
+            </strong>
+            <small>just now</small>
+          </Toast.Header>
+          <Toast.Body>
+            {show[2]}
+            {show[1] ? 
+            <div>
+              <Button className="toast-button" variant="danger" onClick={() => handleDelete(show[1])}>Yes</Button>
+              <Button className="toast-button" variant="success" onClick={() => setShow([false])}>No</Button>
+            </div> : ''}
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
       <h2>Customer Listing</h2>
         <div className="add-new">
           <Button variant="primary"><div className="button-link"><Link to="/add_new">Add New</Link></div></Button>
@@ -57,19 +90,19 @@ function CustomerList() {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((student, index) => (  
+          {tasks.map((custdata, index) => (  
             <tr>
               <td>{index+1}</td>
-              <td>{student.data.firstname}</td>
-              <td>{student.data.lastname}</td>
-              <td>{student.data.email}</td>
-              <td>{student.data.telno}</td>
+              <td>{custdata.data.firstname}</td>
+              <td>{custdata.data.lastname}</td>
+              <td>{custdata.data.email}</td>
+              <td>{custdata.data.telno}</td>
               <td>
-                <Button className='action_btn' variant="primary" onClick={() => handleEdit(student.id)}>
-                  <div className="button-link"><Link to="/edit" state={{id: student.id, data: student.data, edit: 1}}>Edit</Link></div>
+                <Button className='action_btn' variant="primary" onClick={() => handleEdit(custdata.id)}>
+                  <div className="button-link"><Link to="/edit" state={{id: custdata.id, data: custdata.data, edit: 1}}>Edit</Link></div>
                   {/* Edit */}
                   </Button>
-                <Button className='action_btn' variant="danger" onClick={() => handleDelete(student.id)}>Delete</Button>
+                <Button className='action_btn' variant="danger" onClick={() => setShow([true,custdata.id,'Are you sure you want to delete this record?.', 'warning'])}>Delete</Button>
               </td>
             </tr>
           ))}  

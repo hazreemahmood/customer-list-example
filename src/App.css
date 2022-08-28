@@ -75,3 +75,16 @@
 .action_btn{
   margin-right: 10px;
 }
+
+.nav{
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.toast-button{
+  margin: 5px 0 0 5px !important;
+}
+
+.toast-container{
+  margin-top: 30px;
+}

@@ -6,24 +6,13 @@ import Authentication from './Authentication';
 import CustomerList from './CustomerList';
 import AddNewCustomer from './page/AddNewCustomer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Nav } from 'react-bootstrap';
+import { Header } from '../src/components/Header';
 
 // Pages ----------------------
 
 const Home = () => {
-  return <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>;
+  return <Header />;
 };
 
 const Auth = () => {
@@ -45,16 +34,19 @@ const Edit = (customerid) => {
 
 const App = () => {
   return (
-    <Router>
-      <div className="App">
-        <div className="top-menu">
-            <div className="top-menu-nav">
-                <div className="top-menu-nav-child">Hello, Guest</div>
-                <div className="top-menu-nav-child"><Link to="/">Home</Link></div>
-                <div className="top-menu-nav-child"><Link to="/auth">Login / Register</Link></div>
-                <div><Link to="/list">List</Link></div>
-            </div>
-        </div>
+    <div class="App">
+      <Router>
+        <Nav defaultActiveKey="/" as="ul">
+          <Nav.Item as="li">
+            <Nav.Link eventKey="disabled" disabled>Hello, Guest</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as="li">
+            <Nav.Link href="/">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as="li">
+            <Nav.Link href="/list" eventKey="link-1">List</Nav.Link>
+          </Nav.Item>
+        </Nav>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/list" element={<List />} />
@@ -62,8 +54,8 @@ const App = () => {
           <Route path="/add_new" element={<AddNew />} />
           <Route path="/edit" element={<Edit />} />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 };
 
