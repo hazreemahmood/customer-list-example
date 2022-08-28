@@ -71,3 +71,7 @@
 .button-link>a{
   color: #ffff;
 }
+
+.action_btn{
+  margin-right: 10px;
+}

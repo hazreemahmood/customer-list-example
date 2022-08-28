@@ -37,6 +37,10 @@ const AddNew = () => {
   return <AddNewCustomer />
 };
 
+const Edit = (customerid) => {
+  return <AddNewCustomer customerid={customerid}/>
+}
+
 // Routing --------------------
 
 const App = () => {
@@ -56,6 +60,7 @@ const App = () => {
           <Route path="/list" element={<List />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/add_new" element={<AddNew />} />
+          <Route path="/edit" element={<Edit />} />
         </Routes>
       </div>
     </Router>
