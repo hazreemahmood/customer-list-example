@@ -50,7 +50,7 @@ function CustomerList() {
   }
 
   return (
-    <div>
+    <div class="container">
       <ToastContainer position="top-end" className="p-3">
         <Toast bg={show[3]} onClose={() => setShow([false])} show={show[0]} delay={3000} autohide={show[4]}>
           <Toast.Header>
@@ -93,7 +93,7 @@ function CustomerList() {
           {tasks.map((custdata, index) => (  
             <tr>
               <td>{index+1}</td>
-              <td>{custdata.data.firstname}</td>
+              <td><Link to="/view" state={{id: custdata.id, data: custdata.data, edit: 1}}>{custdata.data.firstname}</Link></td>
               <td>{custdata.data.lastname}</td>
               <td>{custdata.data.email}</td>
               <td>{custdata.data.telno}</td>

@@ -8,6 +8,7 @@ import AddNewCustomer from './page/AddNewCustomer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav } from 'react-bootstrap';
 import { Header } from '../src/components/Header';
+import CustomerDetails from './page/CustomerDetails'
 
 // Pages ----------------------
 
@@ -28,6 +29,9 @@ const AddNew = () => {
 
 const Edit = (customerid) => {
   return <AddNewCustomer customerid={customerid}/>
+}
+const View = (customerid) => {
+  return <CustomerDetails customerid={customerid}/>
 }
 
 // Routing --------------------
@@ -53,6 +57,7 @@ const App = () => {
           <Route path="/auth" element={<Auth />} />
           <Route path="/add_new" element={<AddNew />} />
           <Route path="/edit" element={<Edit />} />
+          <Route path="/view" element={<View />} />
         </Routes>
       </Router>
     </div>
