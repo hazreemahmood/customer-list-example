@@ -4,7 +4,7 @@ This project is using bootstrap reactjs and firebase for CRUD
 
 ## Step to run the app
 
-`clone the repositories` and run the script below.
+### `clone the repositories` and run the script below.
 
 ### `npm install`
 ### `npm start`
